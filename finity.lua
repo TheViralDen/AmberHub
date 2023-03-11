@@ -1,14 +1,14 @@
-local cachename = "kometaUI"
+local cachename = "AmberHubUI"
 if shared.framename then
 	cachename = shared.framename
 else
 	shared.framename = cachename
 end
 
-local kometa = {}
-kometa.gs = {}
+local AmberHub = {}
+AmberHub.gs = {}
 
-kometa.theme = { -- light
+AmberHub.theme = { -- light
 	main_container = Color3.fromRGB(249, 249, 255),
 	separator_color = Color3.fromRGB(223, 219, 228),
 
@@ -44,7 +44,7 @@ kometa.theme = { -- light
 	scrollbar_color = Color3.fromRGB(198, 189, 202),
 }
 
-kometa.dark_theme = { -- dark
+AmberHub.dark_theme = { -- dark
 	main_container = Color3.fromRGB(23, 23, 23),
 	separator_color = Color3.fromRGB(72, 72, 72),
 
@@ -81,7 +81,7 @@ kometa.dark_theme = { -- dark
 	scrollbar_color = Color3.fromRGB(118, 118, 121),
 }
 
-setmetatable(kometa.gs, {
+setmetatable(AmberHub.gs, {
 	__index = function(_, service)
 		return game:GetService(service)
 	end,
@@ -92,9 +92,9 @@ setmetatable(kometa.gs, {
 })
 
 
-local mouse = kometa.gs["Players"].LocalPlayer:GetMouse()
+local mouse = AmberHub.gs["Players"].LocalPlayer:GetMouse()
 
-function kometa:Create(class, properties)
+function AmberHub:Create(class, properties)
 	local object = Instance.new(class)
 
 	for prop, val in next, properties do
@@ -106,7 +106,7 @@ function kometa:Create(class, properties)
 	return object
 end
 
-function kometa:addShadow(object, transparency)
+function AmberHub:addShadow(object, transparency)
 	local shadow = self:Create("ImageLabel", {
 		Name = "Shadow",
 		AnchorPoint = Vector2.new(0.5, 0.5),
@@ -123,22 +123,22 @@ function kometa:addShadow(object, transparency)
 	shadow.Parent = object
 end
 
-function kometa.new(isdark, gprojectName, thinProject)
-	local kometaObject = {}
-	local self2 = kometaObject
-	local self = kometa
+function AmberHub.new(isdark, gprojectName, thinProject)
+	local AmberHubObject = {}
+	local self2 = AmberHubObject
+	local self = AmberHub
 
-	if not kometa.gs["RunService"]:IsStudio() and self.gs["CoreGui"]:FindFirstChild(cachename) then
-		warn("kometa:", "instance already exists in coregui!")
+	if not AmberHub.gs["RunService"]:IsStudio() and self.gs["CoreGui"]:FindFirstChild(cachename) then
+		warn("AmberHub:", "instance already exists in coregui!")
 		return
 	end
 
-	local theme = kometa.theme
+	local theme = AmberHub.theme
 	local projectName = false
 	local thinMenu = false
     local ContainerSize = UDim2.new(0, 900, 0, 350)
 	
-	if isdark == true then theme = kometa.dark_theme end
+	if isdark == true then theme = AmberHub.dark_theme end
 	if gprojectName then projectName = gprojectName end
 	if thinProject then thinMenu = thinProject end
     if thinProject and typeof(thinProject) == 'table' and thinProject[1] and thinProject[2] and thinProject[1] > 750 then
@@ -152,25 +152,25 @@ function kometa.new(isdark, gprojectName, thinProject)
     local savedposition = UDim2.new(0.5, 0, 0.5, 0)
     
 
-	local kometaData
-	kometaData = {
+	local AmberHubData
+	AmberHubData = {
 		UpConnection = nil,
 		ToggleKey = Enum.KeyCode.Home,
 	}
 
 	self2.ChangeToggleKey = function(NewKey)
-		kometaData.ToggleKey = NewKey
+		AmberHubData.ToggleKey = NewKey
 		
 		if not projectName then
 			self2.tip.Text = "Press '".. string.sub(tostring(NewKey), 14) .."' to hide this menu"
 		end
 		
-		if kometaData.UpConnection then
-			kometaData.UpConnection:Disconnect()
+		if AmberHubData.UpConnection then
+			AmberHubData.UpConnection:Disconnect()
 		end
 
-		kometaData.UpConnection = kometa.gs["UserInputService"].InputEnded:Connect(function(Input)
-			if Input.KeyCode == kometaData.ToggleKey and not typing then
+		AmberHubData.UpConnection = AmberHub.gs["UserInputService"].InputEnded:Connect(function(Input)
+			if Input.KeyCode == AmberHubData.ToggleKey and not typing then
                 toggled = not toggled
 
                 pcall(function() self2.modal.Modal = toggled end)
@@ -195,8 +195,8 @@ function kometa.new(isdark, gprojectName, thinProject)
 		end
 	end
 
-	kometaData.UpConnection = kometa.gs["UserInputService"].InputEnded:Connect(function(Input)
-		if Input.KeyCode == kometaData.ToggleKey and not typing then
+	AmberHubData.UpConnection = AmberHub.gs["UserInputService"].InputEnded:Connect(function(Input)
+		if Input.KeyCode == AmberHubData.ToggleKey and not typing then
 			toggled = not toggled
 
 			if toggled then
@@ -338,7 +338,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 	function self2:Category(name)
 		local category = {}
 		
-		category.button = kometa:Create("TextButton", {
+		category.button = AmberHub:Create("TextButton", {
 			Name = name,
 			BackgroundColor3 = theme.category_button_background,
 			BackgroundTransparency = 1,
@@ -353,7 +353,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 			TextSize = 14
 		})
 
-		category.container = kometa:Create("ScrollingFrame", {
+		category.container = AmberHub:Create("ScrollingFrame", {
 			Name = name,
 			BackgroundTransparency = 1,
 			ScrollBarThickness = 4,
@@ -368,7 +368,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 			ScrollBarImageTransparency = 1 --
 		})
 
-		category.hider = kometa:Create("Frame", {
+		category.hider = AmberHub:Create("Frame", {
 			Name = "Hider",
 			BackgroundTransparency = 0, --
 			BorderSizePixel = 0,
@@ -377,7 +377,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 			ZIndex = 5
 		})
 
-		category.L = kometa:Create("Frame", {
+		category.L = AmberHub:Create("Frame", {
 			Name = "L",
 			BackgroundColor3 = Color3.new(1, 1, 1),
 			BackgroundTransparency = 1,
@@ -387,7 +387,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 		})
 		
 		if not thinProject then
-			category.R = kometa:Create("Frame", {
+			category.R = AmberHub:Create("Frame", {
 				Name = "R",
 				AnchorPoint = Vector2.new(1, 0),
 				BackgroundColor3 = Color3.new(1, 1, 1),
@@ -403,17 +403,17 @@ function kometa.new(isdark, gprojectName, thinProject)
 		end
 		
 		if firstCategory then
-			kometa.gs["TweenService"]:Create(category.hider, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
-			kometa.gs["TweenService"]:Create(category.container, TweenInfo.new(0.3), {ScrollBarImageTransparency = 0}):Play()
+			AmberHub.gs["TweenService"]:Create(category.hider, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
+			AmberHub.gs["TweenService"]:Create(category.container, TweenInfo.new(0.3), {ScrollBarImageTransparency = 0}):Play()
 		end
 		
 		do
-			local uilistlayout = kometa:Create("UIListLayout", {
+			local uilistlayout = AmberHub:Create("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,
 				Padding = UDim.new(0, 10)
 			})
 	
-			local uilistlayout2 = kometa:Create("UIListLayout", {
+			local uilistlayout2 = AmberHub:Create("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,
 				Padding = UDim.new(0, 10)
 			})
@@ -440,29 +440,29 @@ function kometa.new(isdark, gprojectName, thinProject)
 		end
 		
 		category.button.MouseEnter:Connect(function()
-			kometa.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 0.2}):Play()
+			AmberHub.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 0.2}):Play()
 		end)
 		category.button.MouseLeave:Connect(function()
-			kometa.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+			AmberHub.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
 		end)
 		category.button.MouseButton1Down:Connect(function()
 			for _, categoryf in next, self2.userinterface["Container"]["Categories"]:GetChildren() do
 				if categoryf:IsA("ScrollingFrame") then
 					if categoryf ~= category.container then
-						kometa.gs["TweenService"]:Create(categoryf.Hider, TweenInfo.new(0.3), {BackgroundTransparency = 0}):Play()
-						kometa.gs["TweenService"]:Create(categoryf, TweenInfo.new(0.3), {ScrollBarImageTransparency = 1}):Play()
+						AmberHub.gs["TweenService"]:Create(categoryf.Hider, TweenInfo.new(0.3), {BackgroundTransparency = 0}):Play()
+						AmberHub.gs["TweenService"]:Create(categoryf, TweenInfo.new(0.3), {ScrollBarImageTransparency = 1}):Play()
 					end
 				end
 			end
 
-			kometa.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 0.2}):Play()
-			kometa.gs["TweenService"]:Create(category.hider, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
-			kometa.gs["TweenService"]:Create(category.container, TweenInfo.new(0.3), {ScrollBarImageTransparency = 0}):Play()
+			AmberHub.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 0.2}):Play()
+			AmberHub.gs["TweenService"]:Create(category.hider, TweenInfo.new(0.3), {BackgroundTransparency = 1}):Play()
+			AmberHub.gs["TweenService"]:Create(category.container, TweenInfo.new(0.3), {ScrollBarImageTransparency = 0}):Play()
 
 			self2.categories["UIPageLayout"]:JumpTo(category.container)
 		end)
 		category.button.MouseButton1Up:Connect(function()
-			kometa.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
+			AmberHub.gs["TweenService"]:Create(category.button, TweenInfo.new(0.2), {BackgroundTransparency = 1}):Play()
 		end)
 
 		category.container.Parent = self2.categories
@@ -493,7 +493,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 		function category:Sector(name)
 			local sector = {}
 
-			sector.frame = kometa:Create("Frame", {
+			sector.frame = AmberHub:Create("Frame", {
 				Name = name,
 				BackgroundColor3 = Color3.new(1, 1, 1),
 				BackgroundTransparency = 1,
@@ -501,7 +501,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 				ZIndex = 2
 			})
 
-			sector.container = kometa:Create("Frame", {
+			sector.container = AmberHub:Create("Frame", {
 				Name = "Container",
 				BackgroundColor3 = Color3.new(1, 1, 1),
 				BackgroundTransparency = 1,
@@ -510,7 +510,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 				ZIndex = 2
 			})
 
-			sector.title = kometa:Create("TextLabel", {
+			sector.title = AmberHub:Create("TextLabel", {
 				Name = "Title",
 				Text = name,
 				BackgroundColor3 = Color3.new(1, 1, 1),
@@ -523,7 +523,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 				TextXAlignment = Enum.TextXAlignment.Left,
 			})
 
-			local uilistlayout = kometa:Create("UIListLayout", {
+			local uilistlayout = AmberHub:Create("UIListLayout", {
 				SortOrder = Enum.SortOrder.LayoutOrder,
 			})
 
@@ -540,7 +540,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 				local cheat = {}
 				cheat.value = nil
 
-				cheat.frame = kometa:Create("Frame", {
+				cheat.frame = AmberHub:Create("Frame", {
 					Name = name,
 					BackgroundColor3 = Color3.new(1, 1, 1),
 					BackgroundTransparency = 1,
@@ -548,7 +548,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 					ZIndex = 2,
 				})
 
-				cheat.label = kometa:Create("TextLabel", {
+				cheat.label = AmberHub:Create("TextLabel", {
 					Name = "Title",
 					BackgroundColor3 = Color3.new(1, 1, 1),
 					BackgroundTransparency = 1,
@@ -561,7 +561,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 					TextXAlignment = Enum.TextXAlignment.Left
 				})
 
-				cheat.container	= kometa:Create("Frame", {
+				cheat.container	= AmberHub:Create("Frame", {
 					Name = "Container",
 					AnchorPoint = Vector2.new(1, 0.5),
 					BackgroundColor3 = Color3.new(1, 1, 1),
@@ -579,7 +579,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							end
 						end
 
-						cheat.checkbox = kometa:Create("Frame", {
+						cheat.checkbox = AmberHub:Create("Frame", {
 							Name = "Checkbox",
 							AnchorPoint = Vector2.new(1, 0),
 							BackgroundColor3 = Color3.new(1, 1, 1),
@@ -589,7 +589,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							ZIndex = 2,
 						})
 
-						cheat.outerbox = kometa:Create("ImageLabel", {
+						cheat.outerbox = AmberHub:Create("ImageLabel", {
 							Name = "Outer",
 							AnchorPoint = Vector2.new(1, 0.5),
 							BackgroundColor3 = Color3.new(1, 1, 1),
@@ -604,7 +604,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							SliceScale = 0.06,
 						})
 
-						cheat.checkboxbutton = kometa:Create("ImageButton", {
+						cheat.checkboxbutton = AmberHub:Create("ImageButton", {
 							AnchorPoint = Vector2.new(0.5, 0.5),
 							Name = "CheckboxButton",
 							BackgroundColor3 = Color3.new(1, 1, 1),
@@ -621,27 +621,27 @@ function kometa.new(isdark, gprojectName, thinProject)
 
 						if data then
 							if data.enabled then
-								kometa.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
-								kometa.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
 							end
 						end
 
 						cheat.checkboxbutton.MouseEnter:Connect(function()
 							local lightertheme = Color3.fromRGB((theme.checkbox_outer.R * 255) + 20, (theme.checkbox_outer.G * 255) + 20, (theme.checkbox_outer.B * 255) + 20)
-							kometa.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = lightertheme}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = lightertheme}):Play()
 						end)
 						cheat.checkboxbutton.MouseLeave:Connect(function()
 							if not cheat.value then
-								kometa.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_outer}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_outer}):Play()
 							else
-								kometa.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
 							end
 						end)
 						cheat.checkboxbutton.MouseButton1Down:Connect(function()
 							if cheat.value then
-								kometa.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_outer}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_outer}):Play()
 							else
-								kometa.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
 							end
 						end)
 						cheat.checkboxbutton.MouseButton1Up:Connect(function()
@@ -656,10 +656,10 @@ function kometa.new(isdark, gprojectName, thinProject)
 							end
 
 							if cheat.value then
-								kometa.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_checked}):Play()
 							else
-								kometa.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_outer}):Play()
-								kometa.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_inner}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.outerbox, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_outer}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.checkboxbutton, TweenInfo.new(0.2), {ImageColor3 = theme.checkbox_inner}):Play()
 							end
 						end)
 
@@ -677,7 +677,7 @@ function kometa.new(isdark, gprojectName, thinProject)
                         local hsvimage = "rbxassetid://4613607014"
                         local lumienceimage = "rbxassetid://4613627894"
                         
-                        cheat.hsvbar = kometa:Create("ImageButton", {
+                        cheat.hsvbar = AmberHub:Create("ImageButton", {
 							AnchorPoint = Vector2.new(0.5, 0.5),
 							Name = "HSVBar",
 							BackgroundColor3 = Color3.new(1, 1, 1),
@@ -688,7 +688,7 @@ function kometa.new(isdark, gprojectName, thinProject)
                             Image = hsvimage
                         })
 
-                        cheat.arrowpreview = kometa:Create("ImageLabel", {
+                        cheat.arrowpreview = AmberHub:Create("ImageLabel", {
                             Name = "ArrowPreview",
                             BackgroundColor3 = Color3.new(1, 1, 1),
                             BackgroundTransparency = 1,
@@ -701,8 +701,8 @@ function kometa.new(isdark, gprojectName, thinProject)
                         })
                         
                         cheat.hsvbar.MouseButton1Down:Connect(function()
-                            local rs = kometa.gs["RunService"]
-                            local uis = kometa.gs["UserInputService"]local last = cheat.value;
+                            local rs = AmberHub.gs["RunService"]
+                            local uis = AmberHub.gs["UserInputService"]local last = cheat.value;
 
                             cheat.hsvbar.Image = hsvimage
 
@@ -713,7 +713,7 @@ function kometa.new(isdark, gprojectName, thinProject)
                                 local scale = offset / cheat.hsvbar.AbsoluteSize.X
                                 local position = math.clamp(offset, -sx, cheat.hsvbar.AbsoluteSize.X - sx) / cheat.hsvbar.AbsoluteSize.X
 
-                                kometa.gs["TweenService"]:Create(cheat.arrowpreview, TweenInfo.new(0.1), {Position = UDim2.new(position, 0, 0.5, -6)}):Play()
+                                AmberHub.gs["TweenService"]:Create(cheat.arrowpreview, TweenInfo.new(0.1), {Position = UDim2.new(position, 0, 0.5, -6)}):Play()
                                 
                                 cheat.value = Color3.fromHSV(math.clamp(scale, 0, 1), 1, 1)
 
@@ -733,8 +733,8 @@ function kometa.new(isdark, gprojectName, thinProject)
                             end
                         end)
                         cheat.hsvbar.MouseButton2Down:Connect(function()
-                            local rs = kometa.gs["RunService"]
-                            local uis = kometa.gs["UserInputService"]
+                            local rs = AmberHub.gs["RunService"]
+                            local uis = AmberHub.gs["UserInputService"]
                             local last = cheat.value;
 
                             cheat.hsvbar.Image = lumienceimage
@@ -746,7 +746,7 @@ function kometa.new(isdark, gprojectName, thinProject)
                                 local scale = offset / cheat.hsvbar.AbsoluteSize.X
                                 local position = math.clamp(offset, -sx, cheat.hsvbar.AbsoluteSize.X - sx) / cheat.hsvbar.AbsoluteSize.X
 
-                                kometa.gs["TweenService"]:Create(cheat.arrowpreview, TweenInfo.new(0.1), {Position = UDim2.new(position, 0, 0.5, -6)}):Play()
+                                AmberHub.gs["TweenService"]:Create(cheat.arrowpreview, TweenInfo.new(0.1), {Position = UDim2.new(position, 0, 0.5, -6)}):Play()
                                 
                                 cheat.value = Color3.fromHSV(1, 0, 1 - math.clamp(scale, 0, 1))
 
@@ -787,7 +787,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 
 						cheat.dropped = false
 
-						cheat.dropdown = kometa:Create("ImageButton", {
+						cheat.dropdown = AmberHub:Create("ImageButton", {
 							Name = "Dropdown",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -801,7 +801,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							SliceScale = 0.02
 						})
 
-						cheat.selected = kometa:Create("TextLabel", {
+						cheat.selected = AmberHub:Create("TextLabel", {
 							Name = "Selected",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -815,7 +815,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							TextXAlignment = Enum.TextXAlignment.Left
 						})
 
-						cheat.list = kometa:Create("ScrollingFrame", {
+						cheat.list = AmberHub:Create("ScrollingFrame", {
 							Name = "List",
 							BackgroundColor3 = Color3.fromRGB(62, 70, 134),
 							BackgroundTransparency = 0,
@@ -831,13 +831,13 @@ function kometa.new(isdark, gprojectName, thinProject)
 							ScrollBarImageColor3 = theme.dropdown_scrollbar_color
 						})
 
-						local uilistlayout = kometa:Create("UIListLayout", {
+						local uilistlayout = AmberHub:Create("UIListLayout", {
 							SortOrder = Enum.SortOrder.LayoutOrder,
 							Padding = UDim.new(0, 2)
 						})
 						uilistlayout.Parent = cheat.list
 						uilistlayout = nil
-						local uipadding = kometa:Create("UIPadding", {
+						local uipadding = AmberHub:Create("UIPadding", {
 							PaddingLeft = UDim.new(0, 2)
 						})
 						uipadding.Parent = cheat.list
@@ -855,7 +855,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							end
 							
 							for _, value in next, options do
-								local button = kometa:Create("TextButton", {
+								local button = AmberHub:Create("TextButton", {
 									BackgroundColor3 = Color3.new(1, 1, 1),
 									BackgroundTransparency = 1,
 									Size = UDim2.new(1, 0, 0, 20),
@@ -869,10 +869,10 @@ function kometa.new(isdark, gprojectName, thinProject)
 								button.Parent = cheat.list
 	
 								button.MouseEnter:Connect(function()
-									kometa.gs["TweenService"]:Create(button, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text_hover}):Play()
+									AmberHub.gs["TweenService"]:Create(button, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text_hover}):Play()
 								end)
 								button.MouseLeave:Connect(function()
-									kometa.gs["TweenService"]:Create(button, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text}):Play()
+									AmberHub.gs["TweenService"]:Create(button, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text}):Play()
 								end)
 								button.MouseButton1Click:Connect(function()
 									if cheat.dropped then
@@ -892,10 +892,10 @@ function kometa.new(isdark, gprojectName, thinProject)
 								end)
 								
 								
-								kometa.gs["TweenService"]:Create(button, TweenInfo.new(0), {TextTransparency = 1}):Play()
+								AmberHub.gs["TweenService"]:Create(button, TweenInfo.new(0), {TextTransparency = 1}):Play()
 							end
 							
-							kometa.gs["TweenService"]:Create(cheat.list, TweenInfo.new(0), {Size = UDim2.new(1, 0, 0, 0), Position = UDim2.new(0, 0, 1, 0), CanvasSize = UDim2.new(0, 0, 0, cheat.list["UIListLayout"].AbsoluteContentSize.Y), ScrollBarImageTransparency = 1, BackgroundTransparency = 1}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.list, TweenInfo.new(0), {Size = UDim2.new(1, 0, 0, 0), Position = UDim2.new(0, 0, 1, 0), CanvasSize = UDim2.new(0, 0, 0, cheat.list["UIListLayout"].AbsoluteContentSize.Y), ScrollBarImageTransparency = 1, BackgroundTransparency = 1}):Play()
 						end
 						
 						
@@ -905,27 +905,27 @@ function kometa.new(isdark, gprojectName, thinProject)
 							if cheat.dropped then
 								for _, button in next, cheat.list:GetChildren() do
 									if button:IsA("TextButton") then
-										kometa.gs["TweenService"]:Create(button, TweenInfo.new(0.2), {TextTransparency = 0}):Play()
+										AmberHub.gs["TweenService"]:Create(button, TweenInfo.new(0.2), {TextTransparency = 0}):Play()
 									end
 								end
 
-								kometa.gs["TweenService"]:Create(cheat.list, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, math.clamp(cheat.list["UIListLayout"].AbsoluteContentSize.Y, 0, 150)), Position = UDim2.new(0, 0, 1, 0), ScrollBarImageTransparency = 0, BackgroundTransparency = 0}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.list, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, math.clamp(cheat.list["UIListLayout"].AbsoluteContentSize.Y, 0, 150)), Position = UDim2.new(0, 0, 1, 0), ScrollBarImageTransparency = 0, BackgroundTransparency = 0}):Play()
 							else
 								for _, button in next, cheat.list:GetChildren() do
 									if button:IsA("TextButton") then
-										kometa.gs["TweenService"]:Create(button, TweenInfo.new(0.2), {TextTransparency = 1}):Play()
+										AmberHub.gs["TweenService"]:Create(button, TweenInfo.new(0.2), {TextTransparency = 1}):Play()
 									end
 								end
 
-								kometa.gs["TweenService"]:Create(cheat.list, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0), Position = UDim2.new(0, 0, 1, 0), ScrollBarImageTransparency = 1, BackgroundTransparency = 1}):Play()
+								AmberHub.gs["TweenService"]:Create(cheat.list, TweenInfo.new(0.2), {Size = UDim2.new(1, 0, 0, 0), Position = UDim2.new(0, 0, 1, 0), ScrollBarImageTransparency = 1, BackgroundTransparency = 1}):Play()
 							end
 						end
 
 						cheat.dropdown.MouseEnter:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.selected, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text_hover}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.selected, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text_hover}):Play()
 						end)
 						cheat.dropdown.MouseLeave:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.selected, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.selected, TweenInfo.new(0.1), {TextColor3 = theme.dropdown_text}):Play()
 						end)
 						cheat.dropdown.MouseButton1Click:Connect(function()
 							cheat.fadelist()
@@ -979,7 +979,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 					elseif string.lower(kind) == "textbox" then
 						local placeholdertext = data and data.placeholder
 
-						cheat.background = kometa:Create("ImageLabel", {
+						cheat.background = AmberHub:Create("ImageLabel", {
 							Name = "Background",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -993,7 +993,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							SliceScale = 0.02
 						})
 
-						cheat.textbox = kometa:Create("TextBox", {
+						cheat.textbox = AmberHub:Create("TextBox", {
 							Name = "Textbox",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -1010,21 +1010,21 @@ function kometa.new(isdark, gprojectName, thinProject)
 						})
 
 						cheat.background.MouseEnter:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.textbox, TweenInfo.new(0.1), {TextColor3 = theme.textbox_text_hover}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.textbox, TweenInfo.new(0.1), {TextColor3 = theme.textbox_text_hover}):Play()
 						end)
 						cheat.background.MouseLeave:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.textbox, TweenInfo.new(0.1), {TextColor3 = theme.textbox_text}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.textbox, TweenInfo.new(0.1), {TextColor3 = theme.textbox_text}):Play()
 						end)
 						cheat.textbox.Focused:Connect(function()
 							typing = true
 
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.textbox_background_hover}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.textbox_background_hover}):Play()
 						end)
 						cheat.textbox.FocusLost:Connect(function()
 							typing = false
 
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.textbox_background}):Play()
-							kometa.gs["TweenService"]:Create(cheat.textbox, TweenInfo.new(0.1), {TextColor3 = theme.textbox_text}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.textbox_background}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.textbox, TweenInfo.new(0.1), {TextColor3 = theme.textbox_text}):Play()
 
 							cheat.value = cheat.textbox.Text
 
@@ -1050,7 +1050,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 						local moveconnection
 						local releaseconnection
 
-						cheat.sliderbar = kometa:Create("ImageButton", {
+						cheat.sliderbar = AmberHub:Create("ImageButton", {
 							Name = "Sliderbar",
 							AnchorPoint = Vector2.new(1, 0.5),
 							BackgroundColor3 = Color3.new(1, 1, 1),
@@ -1066,7 +1066,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							SliceScale = 0.02,
 						})
 
-						cheat.numbervalue = kometa:Create("TextLabel", {
+						cheat.numbervalue = AmberHub:Create("TextLabel", {
 							Name = "Value",
 							AnchorPoint = Vector2.new(0, 0.5),
 							BackgroundColor3 = Color3.new(1, 1, 1),
@@ -1082,7 +1082,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							TextSize = 13,
 						})
 
-						cheat.visiframe = kometa:Create("ImageLabel", {
+						cheat.visiframe = AmberHub:Create("ImageLabel", {
 							Name = "Frame",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -1110,12 +1110,12 @@ function kometa.new(isdark, gprojectName, thinProject)
 								if not s then warn("error: ".. e) end
 							end
 
-							kometa.gs["TweenService"]:Create(cheat.visiframe, TweenInfo.new(0.1), {
+							AmberHub.gs["TweenService"]:Create(cheat.visiframe, TweenInfo.new(0.1), {
 								Size = UDim2.new(size / 150, 0, 1, 0),
 								ImageColor3 = theme.slider_color_sliding
 							}):Play()
 
-							kometa.gs["TweenService"]:Create(cheat.numbervalue, TweenInfo.new(0.1), {
+							AmberHub.gs["TweenService"]:Create(cheat.numbervalue, TweenInfo.new(0.1), {
 								Position = UDim2.new(size / 150, 5, 0.5, 0),
 								TextTransparency = 0
 							}):Play()
@@ -1135,7 +1135,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 									if not s then warn("error: ".. e) end
 								end
 
-								kometa.gs["TweenService"]:Create(cheat.visiframe, TweenInfo.new(0.1), {
+								AmberHub.gs["TweenService"]:Create(cheat.visiframe, TweenInfo.new(0.1), {
 									Size = UDim2.new(size / 150, 0, 1, 0),
 								ImageColor3 = theme.slider_color_sliding
                                 }):Play()
@@ -1146,20 +1146,20 @@ function kometa.new(isdark, gprojectName, thinProject)
                                     Position = UDim2.new(1, -cheat.numbervalue.TextBounds.X, 0.5, 10);
                                 end
 
-								kometa.gs["TweenService"]:Create(cheat.numbervalue, TweenInfo.new(0.1), {
+								AmberHub.gs["TweenService"]:Create(cheat.numbervalue, TweenInfo.new(0.1), {
 									Position = Position,
 									TextTransparency = 0
 								}):Play()
 							end)
 
-							releaseconnection = kometa.gs["UserInputService"].InputEnded:Connect(function(Mouse)
+							releaseconnection = AmberHub.gs["UserInputService"].InputEnded:Connect(function(Mouse)
 								if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
 
-									kometa.gs["TweenService"]:Create(cheat.visiframe, TweenInfo.new(0.1), {
+									AmberHub.gs["TweenService"]:Create(cheat.visiframe, TweenInfo.new(0.1), {
 										ImageColor3 = theme.slider_color
 									}):Play()
 
-									kometa.gs["TweenService"]:Create(cheat.numbervalue, TweenInfo.new(0.1), {
+									AmberHub.gs["TweenService"]:Create(cheat.numbervalue, TweenInfo.new(0.1), {
 										TextTransparency = 1
 									}):Play()
 
@@ -1177,7 +1177,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 					elseif string.lower(kind) == "button" then
 						local button_text = data and data.text
 
-						cheat.background = kometa:Create("ImageLabel", {
+						cheat.background = AmberHub:Create("ImageLabel", {
 							Name = "Background",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -1191,7 +1191,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							SliceScale = 0.02
 						})
 
-						cheat.button = kometa:Create("TextButton", {
+						cheat.button = AmberHub:Create("TextButton", {
 							Name = "Button",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -1206,16 +1206,16 @@ function kometa.new(isdark, gprojectName, thinProject)
 						})
 
 						cheat.button.MouseEnter:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_hover}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_hover}):Play()
 						end)
 						cheat.button.MouseLeave:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
 						end)
 						cheat.button.MouseButton1Down:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_down}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_down}):Play()
 						end)
 						cheat.button.MouseButton1Up:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
 							
 							if callback then
 								local s, e = pcall(function()
@@ -1233,7 +1233,7 @@ function kometa.new(isdark, gprojectName, thinProject)
                         local callback_bind = data and data.bind
                         local connection
 						
-						cheat.background = kometa:Create("ImageLabel", {
+						cheat.background = AmberHub:Create("ImageLabel", {
 							Name = "Background",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -1247,7 +1247,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 							SliceScale = 0.02
 						})
 
-						cheat.button = kometa:Create("TextButton", {
+						cheat.button = AmberHub:Create("TextButton", {
 							Name = "Button",
 							BackgroundColor3 = Color3.new(1, 1, 1),
 							BackgroundTransparency = 1,
@@ -1262,19 +1262,19 @@ function kometa.new(isdark, gprojectName, thinProject)
 						})
 
 						cheat.button.MouseEnter:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_hover}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_hover}):Play()
 						end)
 						cheat.button.MouseLeave:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
 						end)
 						cheat.button.MouseButton1Down:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_down}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_down}):Play()
                         end)
                         cheat.button.MouseButton2Down:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_down}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background_down}):Play()
 						end)
 						cheat.button.MouseButton1Up:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
 							cheat.button.Text = "Press key..."
 							
 							if connection then
@@ -1282,8 +1282,8 @@ function kometa.new(isdark, gprojectName, thinProject)
 								connection = nil
 							end
 
-							connection = kometa.gs["UserInputService"].InputBegan:Connect(function(Input)
-								if Input.UserInputType.Name == "Keyboard" and Input.KeyCode ~= kometaData.ToggleKey and Input.KeyCode ~= Enum.KeyCode.Backspace then
+							connection = AmberHub.gs["UserInputService"].InputBegan:Connect(function(Input)
+								if Input.UserInputType.Name == "Keyboard" and Input.KeyCode ~= AmberHubData.ToggleKey and Input.KeyCode ~= Enum.KeyCode.Backspace then
 									cheat.button.Text = "Bound to " .. tostring(Input.KeyCode.Name)
 									
                                     if connection then
@@ -1318,14 +1318,14 @@ function kometa.new(isdark, gprojectName, thinProject)
 
 									connection:Disconnect()
 									connection = nil
-								elseif Input.KeyCode == kometaData.ToggleKey then
+								elseif Input.KeyCode == AmberHubData.ToggleKey then
 									cheat.button.Text = "Invalid Key";
 								end
 							end)
 						end)
 						
                         cheat.button.MouseButton2Up:Connect(function()
-							kometa.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
+							AmberHub.gs["TweenService"]:Create(cheat.background, TweenInfo.new(0.2), {ImageColor3 = theme.button_background}):Play()
 						
 							callback_bind = nil
 							cheat.button.Text = "Click to Bind"
@@ -1347,7 +1347,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 						end)
 						
 						
-						kometa.gs["UserInputService"].InputBegan:Connect(function(Input, Process)
+						AmberHub.gs["UserInputService"].InputBegan:Connect(function(Input, Process)
 							if callback_bind and Input.KeyCode == callback_bind and not Process then
 								if callback then
 									local s, e = pcall(function()
@@ -1391,7 +1391,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 
 	self2.categories.ClipsDescendants = true
 	
-	if not kometa.gs["RunService"]:IsStudio() then
+	if not AmberHub.gs["RunService"]:IsStudio() then
 		self2.userinterface.Parent = self.gs["CoreGui"]
 	else
 		self2.userinterface.Parent = self.gs["Players"].LocalPlayer:WaitForChild("PlayerGui")
@@ -1403,7 +1403,7 @@ function kometa.new(isdark, gprojectName, thinProject)
 	self2.topbar.Parent = self2.container
 	self2.tip.Parent = self2.topbar
 
-	return self2, kometaData
+	return self2, AmberHubData
 end
 
-return kometa
+return AmberHub
