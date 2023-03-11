@@ -1,5 +1,13 @@
+local cachename = "AmberHubUI"
+if shared.framename then
+	cachename = shared.framename
+else
+	shared.framename = cachename
+end
 
-
+local AmberHub = {}
+AmberHub.gs = {}
+    
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
