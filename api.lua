@@ -1,6 +1,6 @@
 local ver = 1
 
-local kometa = {
+local AmberHub = {
     ["log"] = function(text) -- just print() who tf will use this
         print(text)
     end,
@@ -368,5 +368,5 @@ local kometa = {
     end
 }
 if getgenv().APIEnabled then
-    return kometa
+    return AmberHub
 end
