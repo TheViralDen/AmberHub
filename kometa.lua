@@ -1354,7 +1354,7 @@ farmsecond:Cheat("Checkbox", "Auto Free Antpasses", function(State) AmberHub.tog
 farmsecond:Cheat("Checkbox", "Auto Free Robo Passes", function(State) AmberHub.toggles.freerobopass = State end)
 farmsecond:Cheat("Checkbox", "Auto Special Sprout Summoner", function(State) AmberHub.toggles.autospawnsprout = State end)
 farmsecond:Cheat("Checkbox", "Auto Honeystorm", function(State) AmberHub.toggles.honeystorm = State end)
-farmsecond:Cheat("Checkbox", "Auto Gingerbread Bears", function(State) AmberHub.toggles.collectgingerbreads = State end)
+-- farmsecond:Cheat("Checkbox", "Auto Gingerbread Bears", function(State) AmberHub.toggles.collectgingerbreads = State end)
 farmsecond:Cheat("Checkbox", "Auto Samovar", function(State) AmberHub.toggles.autosamovar = State end)
 farmsecond:Cheat("Checkbox", "Auto Stockings", function(State) AmberHub.toggles.autostockings = State end)
 farmsecond:Cheat("Checkbox", "Auto Honey Candles", function(State) AmberHub.toggles.autocandles = State end)
@@ -1365,7 +1365,7 @@ farmsecond:Cheat("Checkbox", "Farm Sprouts", function(State) AmberHub.toggles.fa
 farmsecond:Cheat("Checkbox", "Farm Puffshrooms", function(State) AmberHub.toggles.farmpuffshrooms = State end)
 farmsecond:Cheat("Checkbox", "Farm Tickets ⚠️", function(State) AmberHub.toggles.farmtickets = State end)
 farmsecond:Cheat("Checkbox", "Teleport To Rares ⚠️", function(State) AmberHub.toggles.farmrares = State end)
-farmsecond:Cheat("Checkbox", "Use Instant Converters", function(State) AmberHub.toggles.instantconverters = State end)
+-- farmsecond:Cheat("Checkbox", "Use Instant Converters", function(State) AmberHub.toggles.instantconverters = State end)
 
 local psec1 = planterstab:Sector("First Planter")
 psec1:Cheat("Dropdown", "Planter", function(Option) AmberHub.planterssettings[1].Type = Option end, {options=require(game:GetService("ReplicatedStorage").PlanterTypes).INVENTORY_ORDER})
@@ -2044,7 +2044,7 @@ task.spawn(function() while task.wait(1) do
     game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Hour"].Title.Text = "🍯 Honey Per Hour: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/3600))
     game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Day"].Title.Text = "🍯 Honey Per Day: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/86400))
     game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Elapsed Time"].Title.Text = "⌛ Elapsed Time: "..api.toHMS(temptable.stats.runningfor)
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Sprouts"].Title.Text = "🌱 Farmed Sprouts: "..temptable.stats.farmedsprouts
+    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Sprouts"].Title.Text = "🌱Farmed Sprouts: "..temptable.stats.farmedsprouts
     game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Windy"].Title.Text = "Killed Windy: "..temptable.stats.killedwindy
     game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Vicious"].Title.Text = "Killed Vicious: "..temptable.stats.killedvicious
     game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Ants"].Title.Text = "Farmed Ants: "..temptable.stats.farmedants
