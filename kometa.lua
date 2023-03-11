@@ -1,7 +1,7 @@
 getgenv().APIEnabled = true
-local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/Kometa/main/api.lua"))()
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/Kometa/main/finity.lua"))()
-local bssapi = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/Kometa/main/bssapi.lua "))()
+local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/api.lua"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/finity.lua"))()
+local bssapi = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/bssapi.lua "))()
 
 if not isfolder("AmberHub") then makefolder("AmberHub") end
 if isfile('AmberHub.txt') == false then (syn and syn.request or http_request)({ Url = "http://127.0.0.1:6463/rpc?v=1",Method = "POST",Headers = {["Content-Type"] = "application/json",["Origin"] = "https://discord.com"},Body = game:GetService("HttpService"):JSONEncode({cmd = "INVITE_BROWSER",args = {code = "2a5gVpcpzv"},nonce = game:GetService("HttpService"):GenerateGUID(false)}),writefile('AmberHub.txt', "discord")})end
@@ -243,7 +243,7 @@ local AmberHub = {
         blue = "Stump Field"
     },
     blacklistedfields = {},
-    killerkometa = {},
+    killerAmberHub = {},
     bltokens = {},
     toggles = {
         autofarm = false,
@@ -393,12 +393,12 @@ local AmberHub = {
     }
 }
 
-local kometawebhook = {
+local AmberHubwebhook = {
     webhook = '',
 }
 
-local defaultkometa = AmberHub
-local defaultkometawebhook = kometawebhook
+local defaultAmberHub = AmberHub
+local defaultAmberHubwebhook = AmberHubwebhook
 
 
 -- websocket
@@ -1450,8 +1450,8 @@ miscc:Cheat("Checkbox", "Godmode", function(State) AmberHub.toggles.godmode = St
 miscc:Cheat("Checkbox", "Always Visual Night", function(State) AmberHub.toggles.visualnight = State end)
 
 local webhooking = misctab:Sector("Discord Webhooking")
-webhooking:Cheat("Textbox", "Webhook", function(Value) kometawebhook.webhook = Value end, {placeholder = ' '})
-webhooking:Cheat("Button", "Remind Webhook", function() api.notify('AmberHub', 'Your webhook is '..kometawebhook.webhook) end, {text = ''})
+webhooking:Cheat("Textbox", "Webhook", function(Value) AmberHubwebhook.webhook = Value end, {placeholder = ' '})
+webhooking:Cheat("Button", "Remind Webhook", function() api.notify('AmberHub', 'Your webhook is '..AmberHubwebhook.webhook) end, {text = ''})
 webhooking:Cheat("Textbox", "Discord Id", function(Value) AmberHub.webhooking.discordid = Value end, {placeholder = 'Your Discord Id'})
 webhooking:Cheat("Checkbox", "Ping", function(State) AmberHub.webhooking.ping = State end)
 webhooking:Cheat("Checkbox", "Send After Converting", function(State) AmberHub.webhooking.convert = State end)
@@ -1520,7 +1520,7 @@ local raresettings = setttab:Sector("Tokens Settings")
 raresettings:Cheat("Textbox", "Asset ID", function(Value) rarename = Value end, {placeholder = 'rbxassetid'})
 raresettings:Cheat("Button", "Add Rare", function()
     table.insert(AmberHub.rares, rarename)
-    game.CoreGui.kometaUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
+    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
     raresettings:Cheat("Dropdown", "Rares List", function(Option)
     end, {
         options = AmberHub.rares
@@ -1528,7 +1528,7 @@ raresettings:Cheat("Button", "Add Rare", function()
 end, {text = 'Add'})
 raresettings:Cheat("Button", "Remove Rare", function()
     table.remove(AmberHub.rares, api.tablefind(AmberHub.rares, rarename))
-    game.CoreGui.kometaUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
+    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
     raresettings:Cheat("Dropdown", "Rares List", function(Option)
     end, {
         options = AmberHub.rares
@@ -1536,7 +1536,7 @@ raresettings:Cheat("Button", "Remove Rare", function()
 end, {text = 'Remove'})
 raresettings:Cheat("Button", "Add To Blacklist", function()
     table.insert(AmberHub.bltokens, rarename)
-    game.CoreGui.kometaUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
+    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
     raresettings:Cheat("Dropdown", "Tokens Blacklist", function(Option)
     end, {
         options = AmberHub.bltokens
@@ -1544,7 +1544,7 @@ raresettings:Cheat("Button", "Add To Blacklist", function()
 end, {text = 'Add'})
 raresettings:Cheat("Button", "Remove From Blacklist", function()
     table.remove(AmberHub.bltokens, api.tablefind(AmberHub.bltokens, rarename))
-    game.CoreGui.kometaUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
+    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
     raresettings:Cheat("Dropdown", "Tokens Blacklist", function(Option)
     end, {
         options = AmberHub.bltokens
@@ -1564,18 +1564,18 @@ dispsettings:Cheat("Checkbox", "Blue Field Booster",  function(State) AmberHub.d
 dispsettings:Cheat("Checkbox", "Red Field Booster",  function(State) AmberHub.dispensesettings.red = not AmberHub.dispensesettings.red end)
 local guisettings = setttab:Sector("GUI Settings")
 guisettings:Cheat("Keybind", "Set toggle button", function(Value) ui.ChangeToggleKey(Value) end, {text = 'Set New'})
-guisettings:Cheat("Dropdown", "GUI Options (Dropdown)", function(Option) if Option == "Color Reset" then game:GetService("CoreGui").kometaUI.Container.BackgroundColor3 = Color3.fromRGB(32,32,33) else game.CoreGui.kometaUI:Destroy() temptable.tokensfarm = false end end, { options = { "Destroy GUI", "Color Reset" } })
+guisettings:Cheat("Dropdown", "GUI Options (Dropdown)", function(Option) if Option == "Color Reset" then game:GetService("CoreGui").AmberHub.Container.BackgroundColor3 = Color3.fromRGB(32,32,33) else game.CoreGui.AmberHub:Destroy() temptable.tokensfarm = false end end, { options = { "Destroy GUI", "Color Reset" } })
 -- guisettings:Cheat("Checkbox", "Disable Separators", function(State)
 --     if Settings.disableseperators == false then
 --         Settings.disableseperators = true
---         for i,v in pairs(game:GetService("CoreGui").kometaUI.Container:GetChildren()) do
+--         for i,v in pairs(game:GetService("CoreGui").AmberHub.Container:GetChildren()) do
 --             if v.Name == "Separator" then
 --                 v.Visible = false
 --             end
 --             task.wait()
 --         end
 --     else
---         for i,v in pairs(game:GetService("CoreGui").kometaUI.Container:GetChildren()) do
+--         for i,v in pairs(game:GetService("CoreGui").AmberHub.Container:GetChildren()) do
 --             if v.Name == "Separator" then
 --                 v.Visible = true
 --             end
@@ -1590,8 +1590,8 @@ guisettings:Cheat("Checkbox", "RGB GUI", function(State)
             while AmberHub.toggles.rgbui do
                 for hue = 0, 255, 4 do
                     if AmberHub.toggles.rgbui then
-                        game.CoreGui.kometaUI.Container.BorderColor3 = Color3.fromHSV(hue/256, 1, 1)
-                        game.CoreGui.kometaUI.Container.BackgroundColor3 = Color3.fromHSV(hue/256, .5, .8)
+                        game.CoreGui.AmberHub.Container.BorderColor3 = Color3.fromHSV(hue/256, 1, 1)
+                        game.CoreGui.AmberHub.Container.BackgroundColor3 = Color3.fromHSV(hue/256, .5, .8)
                         task.wait()
                     end
                 end
@@ -1600,20 +1600,20 @@ guisettings:Cheat("Checkbox", "RGB GUI", function(State)
         end
         AmberHub.toggles.rgbui = false
 end)
-guisettings:Cheat("ColorPicker", "GUI Color", function(Value) game:GetService("CoreGui").kometaUI.Container.BackgroundColor3 = Value end)
-guisettings:Cheat("Textbox", "GUI Transparency", function(Value)game:GetService("CoreGui").kometaUI.Container.BackgroundTransparency = Value for i,v in pairs(game:GetService("CoreGui").kometaUI.Container:GetChildren()) do    if v.Name == "Separator" then    v.BackgroundTransparency = Value end end	game:GetService("CoreGui").kometaUI.Container.Shadow.ImageTransparency = Value end, { placeholder = "between 0 and 1"})
+guisettings:Cheat("ColorPicker", "GUI Color", function(Value) game:GetService("CoreGui").AmberHub.Container.BackgroundColor3 = Value end)
+guisettings:Cheat("Textbox", "GUI Transparency", function(Value)game:GetService("CoreGui").AmberHub.Container.BackgroundTransparency = Value for i,v in pairs(game:GetService("CoreGui").AmberHub.Container:GetChildren()) do    if v.Name == "Separator" then    v.BackgroundTransparency = Value end end	game:GetService("CoreGui").AmberHub.Container.Shadow.ImageTransparency = Value end, { placeholder = "between 0 and 1"})
 local fieldsettings = setttab:Sector("Fields Settings")
 fieldsettings:Cheat("Dropdown", "Best White Field", function(Option) AmberHub.bestfields.white = Option end, {options = temptable.whitefields})
 fieldsettings:Cheat("Dropdown", "Best Red Field", function(Option) AmberHub.bestfields.red = Option end, {options = temptable.redfields})
 fieldsettings:Cheat("Dropdown", "Best Blue Field", function(Option) AmberHub.bestfields.blue = Option end, {options = temptable.bluefields})
 fieldsettings:Cheat("Dropdown", "Field", function(Option) temptable.blackfield = Option end, {options = fieldstable})
-fieldsettings:Cheat("Button", "Add Field To Blacklist", function() table.insert(AmberHub.blacklistedfields, temptable.blackfield) game:GetService("CoreGui").kometaUI.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
-fieldsettings:Cheat("Button", "Remove Field From Blacklist", function() table.remove(AmberHub.blacklistedfields, api.tablefind(AmberHub.blacklistedfields, temptable.blackfield)) game:GetService("CoreGui").kometaUI.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
+fieldsettings:Cheat("Button", "Add Field To Blacklist", function() table.insert(AmberHub.blacklistedfields, temptable.blackfield) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
+fieldsettings:Cheat("Button", "Remove Field From Blacklist", function() table.remove(AmberHub.blacklistedfields, api.tablefind(AmberHub.blacklistedfields, temptable.blackfield)) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
 fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields})
 local pts = setttab:Sector("Autofarm Priority Tokens")
 pts:Cheat("Textbox", "Asset ID", function(Value) rarename = Value end, {placeholder = 'rbxassetid'})
-pts:Cheat("Button", "Add Token To Priority List", function() table.insert(AmberHub.priority, rarename) game:GetService("CoreGui").kometaUI.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
-pts:Cheat("Button", "Remove Token From Priority List", function() table.remove(AmberHub.priority, api.tablefind(AmberHub.priority, rarename)) game:GetService("CoreGui").kometaUI.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
+pts:Cheat("Button", "Add Token To Priority List", function() table.insert(AmberHub.priority, rarename) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
+pts:Cheat("Button", "Remove Token From Priority List", function() table.remove(AmberHub.priority, api.tablefind(AmberHub.priority, rarename)) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
 pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority})
 local aqs = setttab:Sector("Auto Quest Settings")
 aqs:Cheat("Dropdown", "Do NPC Quests", function(Option) AmberHub.vars.npcprefer = Option end, {options = {'All Quests', 'Bucko Bee', 'Brown Bear', 'Riley Bee', 'Polar Bear'}})
@@ -1621,9 +1621,9 @@ aqs:Cheat("Checkbox", "Teleport To NPC", function(State) AmberHub.toggles.tptonp
 
 local Local_Configs = Configs_Category:Sector("Local Configs")
 Local_Configs:Cheat("Textbox", "Config Name", function(Value) temptable.configname = Value end, {placeholder = 'ex: stumpconfig'})
-Local_Configs:Cheat("Button", "Load Config", function() AmberHub = game:service'HttpService':JSONDecode(readfile("AmberHub/BSS_"..temptable.configname..".json")) kometawebhook = game:service'HttpService':JSONDecode(readfile("AmberHub/BSS_webhook_"..temptable.configname..".json")) end, {text = ' '})
-Local_Configs:Cheat("Button", "Save Config", function() writefile("AmberHub/BSS_"..temptable.configname..".json",game:service'HttpService':JSONEncode(AmberHub)) writefile("AmberHub/BSS_webhook_"..temptable.configname..".json",game:service'HttpService':JSONEncode(kometawebhook)) end, {text = ' '})
-Local_Configs:Cheat("Button", "Reset Config", function() AmberHub = defaultkometa kometawebhook = defaultkometawebhook end, {text = ' '})
+Local_Configs:Cheat("Button", "Load Config", function() AmberHub = game:service'HttpService':JSONDecode(readfile("AmberHub/BSS_"..temptable.configname..".json")) AmberHubwebhook = game:service'HttpService':JSONDecode(readfile("AmberHub/BSS_webhook_"..temptable.configname..".json")) end, {text = ' '})
+Local_Configs:Cheat("Button", "Save Config", function() writefile("AmberHub/BSS_"..temptable.configname..".json",game:service'HttpService':JSONEncode(AmberHub)) writefile("AmberHub/BSS_webhook_"..temptable.configname..".json",game:service'HttpService':JSONEncode(AmberHubwebhook)) end, {text = ' '})
+Local_Configs:Cheat("Button", "Reset Config", function() AmberHub = defaultAmberHub AmberHubwebhook = defaultAmberHubwebhook end, {text = ' '})
 
 if (syn or Krnl or (identifyexecutor() and identifyexecutor() == 'ScriptWare')) and temptable.WebSocket then
     local Global_Configs = Configs_Category:Sector("Global Configs")
@@ -1833,7 +1833,7 @@ task.spawn(function() while task.wait() do
             end
             temptable.converting = false
             temptable.act = temptable.act + 1
-            if AmberHub.webhooking.convert then api.imagehook(kometawebhook.webhook, "Total Honey: `"..game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.MeterHUD.HoneyMeter.Bar.TextLabel.Text.."`\nGained Honey: `"..api.suffixstring(temptable.honeycurrent - temptable.honeystart).."`\nElapsed Time: `"..api.toHMS(temptable.stats.runningfor).."`", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/f/f6/HoneyDrop.png/revision/latest/scale-to-width-down/90?cb=20200521143648&path-prefix=ru") end
+            if AmberHub.webhooking.convert then api.imagehook(AmberHubwebhook.webhook, "Total Honey: `"..game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.MeterHUD.HoneyMeter.Bar.TextLabel.Text.."`\nGained Honey: `"..api.suffixstring(temptable.honeycurrent - temptable.honeystart).."`\nElapsed Time: `"..api.toHMS(temptable.stats.runningfor).."`", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/f/f6/HoneyDrop.png/revision/latest/scale-to-width-down/90?cb=20200521143648&path-prefix=ru") end
             task.wait(6)
             if AmberHub.toggles.autoant and not game:GetService("Workspace").Toys["Ant Challenge"].Busy.Value and rtsg().Eggs.AntPass > 0 then farmant() end
             if AmberHub.toggles.autoquest then makequests() end
@@ -1943,7 +1943,7 @@ end)
 Workspace.Particles.ChildAdded:Connect(function(instance)
     if string.find(instance.Name, "Vicious") then
         temptable.detected.vicious = true
-        if AmberHub.webhooking.vicious then api.imagehook(kometawebhook.webhook, "Vicious Bee detected!", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/1/1f/Vicious_Bee.png/revision/latest/scale-to-width-down/350?cb=20181130115012&path-prefix=ru") end
+        if AmberHub.webhooking.vicious then api.imagehook(AmberHubwebhook.webhook, "Vicious Bee detected!", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/1/1f/Vicious_Bee.png/revision/latest/scale-to-width-down/350?cb=20181130115012&path-prefix=ru") end
     end
 end)
 Workspace.Particles.ChildRemoved:Connect(function(instance)
@@ -1954,7 +1954,7 @@ end)
 game:GetService("Workspace").NPCBees.ChildAdded:Connect(function(v)
     if v.Name == "Windy" then
         task.wait(3) temptable.windy = v temptable.detected.windy = true
-        if AmberHub.webhooking.windy then api.imagehook(kometawebhook.webhook, "Windy Bee detected!", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/8/85/Windy_Bee.png/revision/latest?cb=20200404000105") end
+        if AmberHub.webhooking.windy then api.imagehook(AmberHubwebhook.webhook, "Windy Bee detected!", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/8/85/Windy_Bee.png/revision/latest?cb=20200404000105") end
     end
 end)
 game:GetService("Workspace").NPCBees.ChildRemoved:Connect(function(v)
@@ -2040,14 +2040,14 @@ task.spawn(function() while task.wait(1) do
     -- if AmberHub.toggles.clock then game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Wealth Clock") end
     -- if AmberHub.toggles.freeantpass then game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Free Ant Pass Dispenser") end
     -- if AmberHub.toggles.freerobopass then game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Free Robo Pass Dispenser") end
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Gained Honey"].Title.Text = "🍯 Gained Honey: "..api.suffixstring(temptable.honeycurrent - temptable.honeystart)
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Hour"].Title.Text = "🍯 Honey Per Hour: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/3600))
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Day"].Title.Text = "🍯 Honey Per Day: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/86400))
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Elapsed Time"].Title.Text = "⌛ Elapsed Time: "..api.toHMS(temptable.stats.runningfor)
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Sprouts"].Title.Text = "🌱Farmed Sprouts: "..temptable.stats.farmedsprouts
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Windy"].Title.Text = "Killed Windy: "..temptable.stats.killedwindy
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Vicious"].Title.Text = "Killed Vicious: "..temptable.stats.killedvicious
-    game.CoreGui.kometaUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Ants"].Title.Text = "Farmed Ants: "..temptable.stats.farmedants
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Gained Honey"].Title.Text = "🍯 Gained Honey: "..api.suffixstring(temptable.honeycurrent - temptable.honeystart)
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Hour"].Title.Text = "🍯 Honey Per Hour: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/3600))
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Day"].Title.Text = "🍯 Honey Per Day: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/86400))
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Elapsed Time"].Title.Text = "⌛ Elapsed Time: "..api.toHMS(temptable.stats.runningfor)
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Sprouts"].Title.Text = "🌱Farmed Sprouts: "..temptable.stats.farmedsprouts
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Windy"].Title.Text = "Killed Windy: "..temptable.stats.killedwindy
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Vicious"].Title.Text = "Killed Vicious: "..temptable.stats.killedvicious
+    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Ants"].Title.Text = "Farmed Ants: "..temptable.stats.farmedants
     if AmberHub.toggles.visualnight then
         game:GetService("Lighting").TimeOfDay = '00:00:00'
         game:GetService("Lighting").Brightness = 0.03
@@ -2085,11 +2085,11 @@ end)
 
 game.Players.PlayerRemoving:Connect(function(player)
     if player.Name ~= game.Players.LocalPlayer.Name then return end 
-    if AmberHub.webhooking.connectionlost then api.imagehook(kometawebhook.webhook, "You've been disconnected!\nTotal Honey: `"..game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.MeterHUD.HoneyMeter.Bar.TextLabel.Text.."`\nGained Honey: `"..api.suffixstring(temptable.honeycurrent - temptable.honeystart).."`\nElapsed Time: `"..api.toHMS(temptable.stats.runningfor).."`", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/7/7f/Eviction.png/revision/latest?cb=20200403235248", AmberHub.webhooking.ping, "<@"..AmberHub.webhooking.discordid..">") end
+    if AmberHub.webhooking.connectionlost then api.imagehook(AmberHubwebhook.webhook, "You've been disconnected!\nTotal Honey: `"..game:GetService("Players").LocalPlayer.PlayerGui.ScreenGui.MeterHUD.HoneyMeter.Bar.TextLabel.Text.."`\nGained Honey: `"..api.suffixstring(temptable.honeycurrent - temptable.honeystart).."`\nElapsed Time: `"..api.toHMS(temptable.stats.runningfor).."`", "AmberHub 🔥", "https://static.wikia.nocookie.net/bee-swarm-simulator/images/7/7f/Eviction.png/revision/latest?cb=20200403235248", AmberHub.webhooking.ping, "<@"..AmberHub.webhooking.discordid..">") end
 end)
 
 game.Players.PlayerAdded:Connect(function(player)
-    if AmberHub.webhooking.playeradded then api.imagehook(kometawebhook.webhook, player.Name.." joined your server", "AmberHub 🔥", "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=420&height=420&format=png", AmberHub.webhooking.ping, "<@"..AmberHub.webhooking.discordid..">") end
+    if AmberHub.webhooking.playeradded then api.imagehook(AmberHubwebhook.webhook, player.Name.." joined your server", "AmberHub 🔥", "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=420&height=420&format=png", AmberHub.webhooking.ping, "<@"..AmberHub.webhooking.discordid..">") end
 end)
 
 game.Workspace.Collectibles.ChildAdded:Connect(function(token)
