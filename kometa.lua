@@ -1354,7 +1354,7 @@ farmsecond:Cheat("Checkbox", "Auto Free Antpasses", function(State) AmberHub.tog
 farmsecond:Cheat("Checkbox", "Auto Free Robo Passes", function(State) AmberHub.toggles.freerobopass = State end)
 farmsecond:Cheat("Checkbox", "Auto Special Sprout Summoner", function(State) AmberHub.toggles.autospawnsprout = State end)
 farmsecond:Cheat("Checkbox", "Auto Honeystorm", function(State) AmberHub.toggles.honeystorm = State end)
-farmsecond:Cheat("Checkbox", "Auto Gingerbread Bears", function(State) AmberHub.toggles.collectgingerbreads = State end) Онетт гей
+farmsecond:Cheat("Checkbox", "Auto Gingerbread Bears", function(State) AmberHub.toggles.collectgingerbreads = State end)
 farmsecond:Cheat("Checkbox", "Auto Samovar", function(State) AmberHub.toggles.autosamovar = State end)
 farmsecond:Cheat("Checkbox", "Auto Stockings", function(State) AmberHub.toggles.autostockings = State end)
 farmsecond:Cheat("Checkbox", "Auto Honey Candles", function(State) AmberHub.toggles.autocandles = State end)
