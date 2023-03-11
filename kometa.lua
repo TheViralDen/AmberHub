@@ -1520,7 +1520,7 @@ local raresettings = setttab:Sector("Tokens Settings")
 raresettings:Cheat("Textbox", "Asset ID", function(Value) rarename = Value end, {placeholder = 'rbxassetid'})
 raresettings:Cheat("Button", "Add Rare", function()
     table.insert(AmberHub.rares, rarename)
-    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
+    game.CoreGui.AmberHubUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
     raresettings:Cheat("Dropdown", "Rares List", function(Option)
     end, {
         options = AmberHub.rares
@@ -1528,7 +1528,7 @@ raresettings:Cheat("Button", "Add Rare", function()
 end, {text = 'Add'})
 raresettings:Cheat("Button", "Remove Rare", function()
     table.remove(AmberHub.rares, api.tablefind(AmberHub.rares, rarename))
-    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
+    game.CoreGui.AmberHubUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Rares List"]:Destroy()
     raresettings:Cheat("Dropdown", "Rares List", function(Option)
     end, {
         options = AmberHub.rares
@@ -1536,7 +1536,7 @@ raresettings:Cheat("Button", "Remove Rare", function()
 end, {text = 'Remove'})
 raresettings:Cheat("Button", "Add To Blacklist", function()
     table.insert(AmberHub.bltokens, rarename)
-    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
+    game.CoreGui.AmberHubUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
     raresettings:Cheat("Dropdown", "Tokens Blacklist", function(Option)
     end, {
         options = AmberHub.bltokens
@@ -1544,7 +1544,7 @@ raresettings:Cheat("Button", "Add To Blacklist", function()
 end, {text = 'Add'})
 raresettings:Cheat("Button", "Remove From Blacklist", function()
     table.remove(AmberHub.bltokens, api.tablefind(AmberHub.bltokens, rarename))
-    game.CoreGui.AmberHub.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
+    game.CoreGui.AmberHubUI.Container.Categories.Settings:FindFirstChild("Tokens Settings", true).Container["Tokens Blacklist"]:Destroy()
     raresettings:Cheat("Dropdown", "Tokens Blacklist", function(Option)
     end, {
         options = AmberHub.bltokens
@@ -1564,18 +1564,18 @@ dispsettings:Cheat("Checkbox", "Blue Field Booster",  function(State) AmberHub.d
 dispsettings:Cheat("Checkbox", "Red Field Booster",  function(State) AmberHub.dispensesettings.red = not AmberHub.dispensesettings.red end)
 local guisettings = setttab:Sector("GUI Settings")
 guisettings:Cheat("Keybind", "Set toggle button", function(Value) ui.ChangeToggleKey(Value) end, {text = 'Set New'})
-guisettings:Cheat("Dropdown", "GUI Options (Dropdown)", function(Option) if Option == "Color Reset" then game:GetService("CoreGui").AmberHub.Container.BackgroundColor3 = Color3.fromRGB(32,32,33) else game.CoreGui.AmberHub:Destroy() temptable.tokensfarm = false end end, { options = { "Destroy GUI", "Color Reset" } })
+guisettings:Cheat("Dropdown", "GUI Options (Dropdown)", function(Option) if Option == "Color Reset" then game:GetService("CoreGui").AmberHubUI.Container.BackgroundColor3 = Color3.fromRGB(32,32,33) else game.CoreGui.AmberHubUI:Destroy() temptable.tokensfarm = false end end, { options = { "Destroy GUI", "Color Reset" } })
 -- guisettings:Cheat("Checkbox", "Disable Separators", function(State)
 --     if Settings.disableseperators == false then
 --         Settings.disableseperators = true
---         for i,v in pairs(game:GetService("CoreGui").AmberHub.Container:GetChildren()) do
+--         for i,v in pairs(game:GetService("CoreGui").AmberHubUI.Container:GetChildren()) do
 --             if v.Name == "Separator" then
 --                 v.Visible = false
 --             end
 --             task.wait()
 --         end
 --     else
---         for i,v in pairs(game:GetService("CoreGui").AmberHub.Container:GetChildren()) do
+--         for i,v in pairs(game:GetService("CoreGui").AmberHubUI.Container:GetChildren()) do
 --             if v.Name == "Separator" then
 --                 v.Visible = true
 --             end
@@ -1590,8 +1590,8 @@ guisettings:Cheat("Checkbox", "RGB GUI", function(State)
             while AmberHub.toggles.rgbui do
                 for hue = 0, 255, 4 do
                     if AmberHub.toggles.rgbui then
-                        game.CoreGui.AmberHub.Container.BorderColor3 = Color3.fromHSV(hue/256, 1, 1)
-                        game.CoreGui.AmberHub.Container.BackgroundColor3 = Color3.fromHSV(hue/256, .5, .8)
+                        game.CoreGui.AmberHubUI.Container.BorderColor3 = Color3.fromHSV(hue/256, 1, 1)
+                        game.CoreGui.AmberHubUI.Container.BackgroundColor3 = Color3.fromHSV(hue/256, .5, .8)
                         task.wait()
                     end
                 end
@@ -1600,20 +1600,20 @@ guisettings:Cheat("Checkbox", "RGB GUI", function(State)
         end
         AmberHub.toggles.rgbui = false
 end)
-guisettings:Cheat("ColorPicker", "GUI Color", function(Value) game:GetService("CoreGui").AmberHub.Container.BackgroundColor3 = Value end)
-guisettings:Cheat("Textbox", "GUI Transparency", function(Value)game:GetService("CoreGui").AmberHub.Container.BackgroundTransparency = Value for i,v in pairs(game:GetService("CoreGui").AmberHub.Container:GetChildren()) do    if v.Name == "Separator" then    v.BackgroundTransparency = Value end end	game:GetService("CoreGui").AmberHub.Container.Shadow.ImageTransparency = Value end, { placeholder = "between 0 and 1"})
+guisettings:Cheat("ColorPicker", "GUI Color", function(Value) game:GetService("CoreGui").AmberHubUI.Container.BackgroundColor3 = Value end)
+guisettings:Cheat("Textbox", "GUI Transparency", function(Value)game:GetService("CoreGui").AmberHubUI.Container.BackgroundTransparency = Value for i,v in pairs(game:GetService("CoreGui").AmberHubUI.Container:GetChildren()) do    if v.Name == "Separator" then    v.BackgroundTransparency = Value end end	game:GetService("CoreGui").AmberHubUI.Container.Shadow.ImageTransparency = Value end, { placeholder = "between 0 and 1"})
 local fieldsettings = setttab:Sector("Fields Settings")
 fieldsettings:Cheat("Dropdown", "Best White Field", function(Option) AmberHub.bestfields.white = Option end, {options = temptable.whitefields})
 fieldsettings:Cheat("Dropdown", "Best Red Field", function(Option) AmberHub.bestfields.red = Option end, {options = temptable.redfields})
 fieldsettings:Cheat("Dropdown", "Best Blue Field", function(Option) AmberHub.bestfields.blue = Option end, {options = temptable.bluefields})
 fieldsettings:Cheat("Dropdown", "Field", function(Option) temptable.blackfield = Option end, {options = fieldstable})
-fieldsettings:Cheat("Button", "Add Field To Blacklist", function() table.insert(AmberHub.blacklistedfields, temptable.blackfield) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
-fieldsettings:Cheat("Button", "Remove Field From Blacklist", function() table.remove(AmberHub.blacklistedfields, api.tablefind(AmberHub.blacklistedfields, temptable.blackfield)) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
+fieldsettings:Cheat("Button", "Add Field To Blacklist", function() table.insert(AmberHub.blacklistedfields, temptable.blackfield) game:GetService("CoreGui").AmberHubUI.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
+fieldsettings:Cheat("Button", "Remove Field From Blacklist", function() table.remove(AmberHub.blacklistedfields, api.tablefind(AmberHub.blacklistedfields, temptable.blackfield)) game:GetService("CoreGui").AmberHubUI.Container.Categories.Settings:FindFirstChild("Fields Settings", true).Container["Blacklisted Fields"]:Destroy() fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields}) end, {text = ' '})
 fieldsettings:Cheat("Dropdown", "Blacklisted Fields", function(Option) end, {options = AmberHub.blacklistedfields})
 local pts = setttab:Sector("Autofarm Priority Tokens")
 pts:Cheat("Textbox", "Asset ID", function(Value) rarename = Value end, {placeholder = 'rbxassetid'})
-pts:Cheat("Button", "Add Token To Priority List", function() table.insert(AmberHub.priority, rarename) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
-pts:Cheat("Button", "Remove Token From Priority List", function() table.remove(AmberHub.priority, api.tablefind(AmberHub.priority, rarename)) game:GetService("CoreGui").AmberHub.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
+pts:Cheat("Button", "Add Token To Priority List", function() table.insert(AmberHub.priority, rarename) game:GetService("CoreGui").AmberHubUI.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
+pts:Cheat("Button", "Remove Token From Priority List", function() table.remove(AmberHub.priority, api.tablefind(AmberHub.priority, rarename)) game:GetService("CoreGui").AmberHubUI.Container.Categories.Settings:FindFirstChild("Autofarm Priority Tokens", true).Container["Priority List"]:Destroy() pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority}) end, {text = ''})
 pts:Cheat("Dropdown", "Priority List", function(Option) end, {options = AmberHub.priority})
 local aqs = setttab:Sector("Auto Quest Settings")
 aqs:Cheat("Dropdown", "Do NPC Quests", function(Option) AmberHub.vars.npcprefer = Option end, {options = {'All Quests', 'Bucko Bee', 'Brown Bear', 'Riley Bee', 'Polar Bear'}})
@@ -2040,14 +2040,14 @@ task.spawn(function() while task.wait(1) do
     -- if AmberHub.toggles.clock then game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Wealth Clock") end
     -- if AmberHub.toggles.freeantpass then game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Free Ant Pass Dispenser") end
     -- if AmberHub.toggles.freerobopass then game:GetService("ReplicatedStorage").Events.ToyEvent:FireServer("Free Robo Pass Dispenser") end
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Gained Honey"].Title.Text = "🍯 Gained Honey: "..api.suffixstring(temptable.honeycurrent - temptable.honeystart)
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Hour"].Title.Text = "🍯 Honey Per Hour: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/3600))
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Day"].Title.Text = "🍯 Honey Per Day: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/86400))
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Elapsed Time"].Title.Text = "⌛ Elapsed Time: "..api.toHMS(temptable.stats.runningfor)
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Sprouts"].Title.Text = "🌱Farmed Sprouts: "..temptable.stats.farmedsprouts
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Windy"].Title.Text = "Killed Windy: "..temptable.stats.killedwindy
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Vicious"].Title.Text = "Killed Vicious: "..temptable.stats.killedvicious
-    game.CoreGui.AmberHub.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Ants"].Title.Text = "Farmed Ants: "..temptable.stats.farmedants
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Gained Honey"].Title.Text = "🍯 Gained Honey: "..api.suffixstring(temptable.honeycurrent - temptable.honeystart)
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Hour"].Title.Text = "🍯 Honey Per Hour: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/3600))
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Honey Per Day"].Title.Text = "🍯 Honey Per Day: "..api.suffixstring((temptable.honeycurrent - temptable.honeystart)/(temptable.stats.runningfor/86400))
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Elapsed Time"].Title.Text = "⌛ Elapsed Time: "..api.toHMS(temptable.stats.runningfor)
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Sprouts"].Title.Text = "🌱Farmed Sprouts: "..temptable.stats.farmedsprouts
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Windy"].Title.Text = "Killed Windy: "..temptable.stats.killedwindy
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Killed Vicious"].Title.Text = "Killed Vicious: "..temptable.stats.killedvicious
+    game.CoreGui.AmberHubUI.Container.Categories.Statistics:FindFirstChild("Statistics", true).Container["Farmed Ants"].Title.Text = "Farmed Ants: "..temptable.stats.farmedants
     if AmberHub.toggles.visualnight then
         game:GetService("Lighting").TimeOfDay = '00:00:00'
         game:GetService("Lighting").Brightness = 0.03
