@@ -69,34 +69,6 @@ else
 	end
 end
 
-function library:IsRunning()
-	if gethui then
-		return AmberHub.Parent == gethui()
-	else
-		return AmberHub.Parent == game:GetService("CoreGui")
-	end
-
-end
-
-local function AddConnection(Signal, Function)
-	if (not library:IsRunning()) then
-		return
-	end
-	local SignalConnect = Signal:Connect(Function)
-	table.insert(library.Connections, SignalConnect)
-	return SignalConnect
-end
-
-task.spawn(function()
-	while (library:IsRunning()) do
-		wait()
-	end
-
-	for _, Connection in next, library.Connections do
-		Connection:Disconnect()
-	end
-end)
-
 local function MakeDraggable(DragPoint, Main)
 	pcall(function()
 		local Dragging, DragInput, MousePos, FramePos = false
