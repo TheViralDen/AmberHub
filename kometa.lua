@@ -1365,7 +1365,7 @@ farmsecond:Cheat("Checkbox", "Farm Sprouts", function(State) AmberHub.toggles.fa
 farmsecond:Cheat("Checkbox", "Farm Puffshrooms", function(State) AmberHub.toggles.farmpuffshrooms = State end)
 farmsecond:Cheat("Checkbox", "Farm Tickets ⚠️", function(State) AmberHub.toggles.farmtickets = State end)
 farmsecond:Cheat("Checkbox", "Teleport To Rares ⚠️", function(State) AmberHub.toggles.farmrares = State end
-farmsecond:Cheat("Checkbox", "Use Instant Converters", function(State) AmberHub.toggles.instantconverters = State end)
+-- farmsecond:Cheat("Checkbox", "Use Instant Converters", function(State) AmberHub.toggles.instantconverters = State end)
 
 local psec1 = planterstab:Sector("First Planter")
 psec1:Cheat("Dropdown", "Planter", function(Option) AmberHub.planterssettings[1].Type = Option end, {options=require(game:GetService("ReplicatedStorage").PlanterTypes).INVENTORY_ORDER})
