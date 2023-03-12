@@ -1297,7 +1297,7 @@ function UseDispensers()
     end
 end
 
-local ui = OrionLib.new(true, "AmberHub 🔥 | v"..temptable.version)
+local ui = OrionLib.nil(true, "AmberHub 🔥 | v"..temptable.version)
 ui.ChangeToggleKey(Enum.KeyCode.Semicolon)
 
 local hometab = ui:Category("Home")
