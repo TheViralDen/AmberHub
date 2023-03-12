@@ -1,6 +1,6 @@
 getgenv().APIEnabled = true
 local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/api.lua"))()
-local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheViralDen/AmberHub/main/finity.lua')))()
+local Library = loadstring(game:GetObjects("rbxassetid://7657867786")[1].Source)()
 local bssapi = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/bssapi.lua "))()
 
 if not isfolder("AmberHub") then makefolder("AmberHub") end
