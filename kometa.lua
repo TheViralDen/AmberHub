@@ -1297,7 +1297,7 @@ function UseDispensers()
     end
 end
 
-local ui = library.nil(true, "AmberHub 🔥 | v"..temptable.version)
+local ui = library.new(true, "AmberHub 🔥 | v"..temptable.version)
 ui.ChangeToggleKey(Enum.KeyCode.Semicolon)
 
 local hometab = ui:Category("Home")
@@ -1364,8 +1364,8 @@ farmsecond:Cheat("Checkbox", "Farm Snowflakes", function(State) AmberHub.toggles
 farmsecond:Cheat("Checkbox", "Farm Sprouts", function(State) AmberHub.toggles.farmsprouts = State end)
 farmsecond:Cheat("Checkbox", "Farm Puffshrooms", function(State) AmberHub.toggles.farmpuffshrooms = State end)
 farmsecond:Cheat("Checkbox", "Farm Tickets ⚠️", function(State) AmberHub.toggles.farmtickets = State end)
-farmsecond:Cheat("Checkbox", "Teleport To Rares ⚠️", function(State) AmberHub.toggles.farmrares = State end)
--- farmsecond:Cheat("Checkbox", "Use Instant Converters", function(State) AmberHub.toggles.instantconverters = State end)
+farmsecond:Cheat("Checkbox", "Teleport To Rares ⚠️", function(State) AmberHub.toggles.farmrares = State end
+farmsecond:Cheat("Checkbox", "Use Instant Converters", function(State) AmberHub.toggles.instantconverters = State end)
 
 local psec1 = planterstab:Sector("First Planter")
 psec1:Cheat("Dropdown", "Planter", function(Option) AmberHub.planterssettings[1].Type = Option end, {options=require(game:GetService("ReplicatedStorage").PlanterTypes).INVENTORY_ORDER})
