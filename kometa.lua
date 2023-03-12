@@ -1,6 +1,6 @@
 getgenv().APIEnabled = true
 local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/api.lua"))()
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local bssapi = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/bssapi.lua "))()
 
 if not isfolder("AmberHub") then makefolder("AmberHub") end
@@ -1297,6 +1297,8 @@ function UseDispensers()
     end
 end
 
+local ui = library.nil(true, "AmberHub 🔥 | v"..temptable.version)
+ui.ChangeToggleKey(Enum.KeyCode.Semicolon)
 
 local hometab = ui:Category("Home")
 local farmtab = ui:Category("Farming")
