@@ -1,13 +1,5 @@
-local cachename = "AmberHubUI"
-if shared.framename then
-	cachename = shared.framename
-else
-	shared.framename = cachename
-end
 
-local AmberHub = {}
-AmberHub.gs = {}
-    
+
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -15,7 +7,7 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 local HttpService = game:GetService("HttpService")
 
-local AmberHub = {
+local Library = {
 	Elements = {},
 	ThemeObjects = {},
 	Connections = {},
@@ -43,7 +35,7 @@ local Success, Response = pcall(function()
 end)
 
 if not Success then
-	warn("\nAmberHub Library - Failed to load Feather Icons. Error code: " .. Response .. "\n")
+	warn("\nOrion Library - Failed to load Feather Icons. Error code: " .. Response .. "\n")
 end	
 
 local function GetIcon(IconName)
@@ -77,7 +69,7 @@ else
 	end
 end
 
-function AmberHub:IsRunning()
+function library:IsRunning()
 	if gethui then
 		return AmberHub.Parent == gethui()
 	else
@@ -87,20 +79,20 @@ function AmberHub:IsRunning()
 end
 
 local function AddConnection(Signal, Function)
-	if (not AmberHub:IsRunning()) then
+	if (not library:IsRunning()) then
 		return
 	end
 	local SignalConnect = Signal:Connect(Function)
-	table.insert(AmberHub.Connections, SignalConnect)
+	table.insert(library.Connections, SignalConnect)
 	return SignalConnect
 end
 
 task.spawn(function()
-	while (AmberHub:IsRunning()) do
+	while (library:IsRunning()) do
 		wait()
 	end
 
-	for _, Connection in next, AmberHub.Connections do
+	for _, Connection in next, library.Connections do
 		Connection:Disconnect()
 	end
 end)
@@ -148,13 +140,13 @@ local function Create(Name, Properties, Children)
 end
 
 local function CreateElement(ElementName, ElementFunction)
-	AmberHub.Elements[ElementName] = function(...)
+	library.Elements[ElementName] = function(...)
 		return ElementFunction(...)
 	end
 end
 
 local function MakeElement(ElementName, ...)
-	local NewElement = AmberHub.Elements[ElementName](...)
+	local NewElement = library.Elements[ElementName](...)
 	return NewElement
 end
 
@@ -197,18 +189,18 @@ local function ReturnProperty(Object)
 end
 
 local function AddThemeObject(Object, Type)
-	if not AmberHub.ThemeObjects[Type] then
-		AmberHub.ThemeObjects[Type] = {}
+	if not library.ThemeObjects[Type] then
+		library.ThemeObjects[Type] = {}
 	end    
-	table.insert(AmberHub.ThemeObjects[Type], Object)
-	Object[ReturnProperty(Object)] = AmberHub.Themes[AmberHub.SelectedTheme][Type]
+	table.insert(library.ThemeObjects[Type], Object)
+	Object[ReturnProperty(Object)] = library.Themes[library.SelectedTheme][Type]
 	return Object
 end    
 
 local function SetTheme()
-	for Name, Type in pairs(AmberHub.ThemeObjects) do
+	for Name, Type in pairs(library.ThemeObjects) do
 		for _, Object in pairs(Type) do
-			Object[ReturnProperty(Object)] = AmberHub.Themes[AmberHub.SelectedTheme][Name]
+			Object[ReturnProperty(Object)] = library.Themes[library.SelectedTheme][Name]
 		end    
 	end    
 end
@@ -224,12 +216,12 @@ end
 local function LoadCfg(Config)
 	local Data = HttpService:JSONDecode(Config)
 	table.foreach(Data, function(a,b)
-		if AmberHub.Flags[a] then
+		if library.Flags[a] then
 			spawn(function() 
-				if AmberHub.Flags[a].Type == "Colorpicker" then
-					AmberHub.Flags[a]:Set(UnpackColor(b))
+				if library.Flags[a].Type == "Colorpicker" then
+					library.Flags[a]:Set(UnpackColor(b))
 				else
-					AmberHub.Flags[a]:Set(b)
+					library.Flags[a]:Set(b)
 				end    
 			end)
 		else
@@ -240,7 +232,7 @@ end
 
 local function SaveCfg(Name)
 	local Data = {}
-	for i,v in pairs(AmberHub.Flags) do
+	for i,v in pairs(library.Flags) do
 		if v.Save then
 			if v.Type == "Colorpicker" then
 				Data[i] = PackColor(v.Value)
@@ -249,7 +241,7 @@ local function SaveCfg(Name)
 			end
 		end	
 	end
-	writefile(AmberHub.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
+	writefile(library.Folder .. "/" .. Name .. ".txt", tostring(HttpService:JSONEncode(Data)))
 end
 
 local WhitelistedMouse = {Enum.UserInputType.MouseButton1, Enum.UserInputType.MouseButton2,Enum.UserInputType.MouseButton3}
@@ -396,7 +388,7 @@ local NotificationHolder = SetProps(SetChildren(MakeElement("TFrame"), {
 	Parent = AmberHub
 })
 
-function AmberHub:MakeNotification(NotificationConfig)
+function library:MakeNotification(NotificationConfig)
 	spawn(function()
 		NotificationConfig.Name = NotificationConfig.Name or "Notification"
 		NotificationConfig.Content = NotificationConfig.Content or "Test"
@@ -457,12 +449,12 @@ function AmberHub:MakeNotification(NotificationConfig)
 	end)
 end    
 
-function AmberHub:Init()
-	if AmberHub.SaveCfg then	
+function library:Init()
+	if library.SaveCfg then	
 		pcall(function()
-			if isfile(AmberHub.Folder .. "/" .. game.GameId .. ".txt") then
-				LoadCfg(readfile(AmberHub.Folder .. "/" .. game.GameId .. ".txt"))
-				AmberHub:MakeNotification({
+			if isfile(library.Folder .. "/" .. game.GameId .. ".txt") then
+				LoadCfg(readfile(library.Folder .. "/" .. game.GameId .. ".txt"))
+				library:MakeNotification({
 					Name = "Configuration",
 					Content = "Auto-loaded configuration for the game " .. game.GameId .. ".",
 					Time = 5
@@ -472,7 +464,7 @@ function AmberHub:Init()
 	end	
 end	
 
-function AmberHub:MakeWindow(WindowConfig)
+function library:MakeWindow(WindowConfig)
 	local FirstTab = true
 	local Minimized = false
 	local Loaded = false
@@ -491,8 +483,8 @@ function AmberHub:MakeWindow(WindowConfig)
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
 	WindowConfig.IntroIcon = WindowConfig.IntroIcon or "rbxassetid://8834748103"
-	AmberHub.Folder = WindowConfig.ConfigFolder
-	AmberHub.SaveCfg = WindowConfig.SaveConfig
+	library.Folder = WindowConfig.ConfigFolder
+	library.SaveCfg = WindowConfig.SaveConfig
 
 	if WindowConfig.SaveConfig then
 		if not isfolder(WindowConfig.ConfigFolder) then
@@ -658,7 +650,7 @@ function AmberHub:MakeWindow(WindowConfig)
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		MainWindow.Visible = false
 		UIHidden = true
-		AmberHub:MakeNotification({
+		library:MakeNotification({
 			Name = "Interface Hidden",
 			Content = "Tap RightShift to reopen the interface",
 			Time = 5
@@ -894,22 +886,22 @@ function AmberHub:MakeWindow(WindowConfig)
 				}), "Second")
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = AmberHub.Themes[AmberHub.SelectedTheme].Second}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = library.Themes[library.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 					spawn(function()
 						ButtonConfig.Callback()
 					end)
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(ButtonFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 6, library.Themes[library.SelectedTheme].Second.G * 255 + 6, library.Themes[library.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				function Button:Set(ButtonText)
@@ -969,8 +961,8 @@ function AmberHub:MakeWindow(WindowConfig)
 
 				function Toggle:Set(Value)
 					Toggle.Value = Value
-					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or AmberHub.Themes.Default.Divider}):Play()
-					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or AmberHub.Themes.Default.Stroke}):Play()
+					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or library.Themes.Default.Divider}):Play()
+					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or library.Themes.Default.Stroke}):Play()
 					TweenService:Create(ToggleBox.Ico, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {ImageTransparency = Toggle.Value and 0 or 1, Size = Toggle.Value and UDim2.new(0, 20, 0, 20) or UDim2.new(0, 8, 0, 8)}):Play()
 					ToggleConfig.Callback(Toggle.Value)
 				end    
@@ -978,25 +970,25 @@ function AmberHub:MakeWindow(WindowConfig)
 				Toggle:Set(Toggle.Value)
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = AmberHub.Themes[AmberHub.SelectedTheme].Second}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = library.Themes[library.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 					SaveCfg(game.GameId)
 					Toggle:Set(not Toggle.Value)
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 6, library.Themes[library.SelectedTheme].Second.G * 255 + 6, library.Themes[library.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				if ToggleConfig.Flag then
-					AmberHub.Flags[ToggleConfig.Flag] = Toggle
+					library.Flags[ToggleConfig.Flag] = Toggle
 				end	
 				return Toggle
 			end  
@@ -1091,7 +1083,7 @@ function AmberHub:MakeWindow(WindowConfig)
 
 				Slider:Set(Slider.Value)
 				if SliderConfig.Flag then				
-					AmberHub.Flags[SliderConfig.Flag] = Slider
+					library.Flags[SliderConfig.Flag] = Slider
 				end
 				return Slider
 			end  
@@ -1246,7 +1238,7 @@ function AmberHub:MakeWindow(WindowConfig)
 				Dropdown:Refresh(Dropdown.Options, false)
 				Dropdown:Set(Dropdown.Value)
 				if DropdownConfig.Flag then				
-					AmberHub.Flags[DropdownConfig.Flag] = Dropdown
+					library.Flags[DropdownConfig.Flag] = Dropdown
 				end
 				return Dropdown
 			end
@@ -1344,19 +1336,19 @@ function AmberHub:MakeWindow(WindowConfig)
 				end)
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = AmberHub.Themes[AmberHub.SelectedTheme].Second}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = library.Themes[library.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(BindFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 6, library.Themes[library.SelectedTheme].Second.G * 255 + 6, library.Themes[library.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 
 				function Bind:Set(Key)
@@ -1368,7 +1360,7 @@ function AmberHub:MakeWindow(WindowConfig)
 
 				Bind:Set(BindConfig.Default)
 				if BindConfig.Flag then				
-					AmberHub.Flags[BindConfig.Flag] = Bind
+					library.Flags[BindConfig.Flag] = Bind
 				end
 				return Bind
 			end  
@@ -1435,20 +1427,20 @@ function AmberHub:MakeWindow(WindowConfig)
 				TextboxActual.Text = TextboxConfig.Default
 
 				AddConnection(Click.MouseEnter, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
 
 				AddConnection(Click.MouseLeave, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = AmberHub.Themes[AmberHub.SelectedTheme].Second}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = library.Themes[library.SelectedTheme].Second}):Play()
 				end)
 
 				AddConnection(Click.MouseButton1Up, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 3, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 3)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 3, library.Themes[library.SelectedTheme].Second.G * 255 + 3, library.Themes[library.SelectedTheme].Second.B * 255 + 3)}):Play()
 					TextboxActual:CaptureFocus()
 				end)
 
 				AddConnection(Click.MouseButton1Down, function()
-					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(AmberHub.Themes[AmberHub.SelectedTheme].Second.R * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.G * 255 + 6, AmberHub.Themes[AmberHub.SelectedTheme].Second.B * 255 + 6)}):Play()
+					TweenService:Create(TextboxFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(library.Themes[library.SelectedTheme].Second.R * 255 + 6, library.Themes[library.SelectedTheme].Second.G * 255 + 6, library.Themes[library.SelectedTheme].Second.B * 255 + 6)}):Play()
 				end)
 			end 
 			function ElementFunction:AddColorpicker(ColorpickerConfig)
@@ -1632,7 +1624,7 @@ function AmberHub:MakeWindow(WindowConfig)
 
 				Colorpicker:Set(Colorpicker.Value)
 				if ColorpickerConfig.Flag then				
-					AmberHub.Flags[ColorpickerConfig.Flag] = Colorpicker
+					library.Flags[ColorpickerConfig.Flag] = Colorpicker
 				end
 				return Colorpicker
 			end  
@@ -1737,7 +1729,7 @@ function AmberHub:MakeWindow(WindowConfig)
 	--				})
 	--			})
 	--		end
-	--		AmberHub:MakeNotification({
+	--		library:MakeNotification({
 	--			Name = "UI Library Available",
 	--			Content = "New UI Library Available - Joining Discord (#announcements)",
 	--			Time = 8
@@ -1767,8 +1759,8 @@ function AmberHub:MakeWindow(WindowConfig)
 	return TabFunction
 end   
 
-function AmberHub:Destroy()
+function library:Destroy()
 	AmberHub:Destroy()
 end
 
-return AmberHub
+return library
