@@ -1,7 +1,6 @@
 getgenv().APIEnabled = true
 local api = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/api.lua"))()
 local library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/TheViralDen/AmberHub/main/finity.lua')))()
-local bssapi = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheViralDen/AmberHub/main/bssapi.lua"))()
 
 if not isfolder("AmberHub") then makefolder("AmberHub") end
 if isfile('AmberHub.txt') == false then (syn and syn.request or http_request)({ Url = "http://127.0.0.1:6463/rpc?v=1",Method = "POST",Headers = {["Content-Type"] = "application/json",["Origin"] = "https://discord.com"},Body = game:GetService("HttpService"):JSONEncode({cmd = "INVITE_BROWSER",args = {code = "2a5gVpcpzv"},nonce = game:GetService("HttpService"):GenerateGUID(false)}),writefile('AmberHub.txt', "discord")})end
